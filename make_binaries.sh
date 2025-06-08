@@ -1,14 +1,10 @@
 #!/usr/bin/env bash
-set -x #echo on
-set -e #Exists on errors
-
-#alias ll="ls -al"
+set -euxo pipefail
 
 SCRIPTPATH=$(cd $(dirname "$BASH_SOURCE") && pwd)
 echo "SCRIPTPATH = $SCRIPTPATH"
 pushd ${SCRIPTPATH}
 
-#Workaround for build outside github: "env" file should then contain exports of github variables.
 if [ -f "./env" ];
 then
   source ./env
@@ -26,7 +22,9 @@ tar zxf git-${VERSION}.tar.gz
 mv git-${VERSION} git-${VERSION}-src
 pushd git-${VERSION}-src
 ./configure --prefix=$PWD/../git-${VERSION} --with-curl --with-openssl
-make install
+make -j4 install
 popd
-tar czf ${SCRIPTPATH}/git-${VERSION}.tar.gz git-${VERSION}
+tar czf "${SCRIPTPATH}/git-${VERSION}.tar.gz" git-${VERSION}
 popd
+pwd
+ls -l
