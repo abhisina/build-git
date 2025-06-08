@@ -28,4 +28,5 @@ pushd git-${VERSION}-src
 ./configure --prefix=$PWD/../git-${VERSION} --with-curl --with-openssl
 make install
 popd
-tar czf git-${VERSION}.tar.gz git-${VERSION}
+tar czf ${SCRIPTPATH}/git-${VERSION}.tar.gz git-${VERSION}
+popd
